@@ -1,5 +1,11 @@
-function sayHello(name: string) {
-  console.log(`Hello ${name}!`);
-}
+import express from "express";
 
-sayHello("World");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
