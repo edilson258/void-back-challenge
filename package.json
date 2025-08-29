@@ -1,0 +1,13 @@
+{
+  "name": "void-backend-challenge",
+  "author": "Edilson Pateguana",
+  "description": "My attempting of solving the backend challenge by void",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.5.0"
+  },
+  "scripts": {
+    "dev": "node index.ts"
+  }
+}
