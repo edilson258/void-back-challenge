@@ -1,3 +1,6 @@
+import { Result } from "../../utils/result.ts";
+import type { DemoValidationError } from "../../error";
+
 export const COMPANY_NAME_LEN_MIN = 5;
 export const COMPANY_NAME_LEN_MAX = 255;
 export const COMPANY_CNPJ_LEN = 20;
@@ -9,6 +12,6 @@ export type CompanyDtoCreate = {
   phone: string;
 };
 
-export interface CompanyDtoCreateValidator {
-  validateDtoCreate(data: any): CompanyDtoCreate;
+export interface CompanySchemaValidator {
+  validateCreate(data: any): Result<CompanyDtoCreate, DemoValidationError>;
 }
