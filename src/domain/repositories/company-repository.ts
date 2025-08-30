@@ -5,6 +5,7 @@ import type { CompanyEntity } from "../entities/company-entity";
 
 export interface CompanyRepository {
   save: (company: CompanyEntity) => Promise<Result<void, DemoError>>;
+  findById: (id: string) => Promise<Result<Option<CompanyEntity>, DemoError>>;
   findByCnpj: (
     cnpj: string,
   ) => Promise<Result<Option<CompanyEntity>, DemoError>>;

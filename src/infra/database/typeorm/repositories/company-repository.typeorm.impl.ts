@@ -27,6 +27,21 @@ export class TypeOrmCompanyRepository implements CompanyRepository {
     }
   };
 
+  public findById = async (
+    id: string,
+  ): Promise<Result<Option<CompanyEntity>, DemoError>> => {
+    try {
+      const company = await this.typeOrmCompanyRepository.findOne({
+        where: { id },
+      });
+      return Result.ok(company ? Option.some(company) : Option.none());
+    } catch (error) {
+      return Result.err(
+        new DemoError("INFRASTRUCTURE_FAILURE", (error as Error).message),
+      );
+    }
+  };
+
   public findByCnpj = async (
     cnpj: string,
   ): Promise<Result<Option<CompanyEntity>, DemoError>> => {
