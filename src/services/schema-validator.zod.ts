@@ -1,3 +1,5 @@
+// TODO: split into multiple files
+
 import { z } from "zod";
 
 import { Result } from "../utils/result.ts";
@@ -14,6 +16,8 @@ import {
   type CompanySchemaValidator,
 } from "../domain/schemas/company-schemas.ts";
 import {
+  ADDRESS_LEN_MAX,
+  ADDRESS_LEN_MIN,
   NAME_LEN_MAX,
   NAME_LEN_MIN,
   PHONE_LEN_MAX,
@@ -23,6 +27,10 @@ import type {
   TechnicianDtoCreate,
   ITechnicianSchemaValidator,
 } from "../domain/schemas/technician.schema.ts";
+import type {
+  ProducerDtoCreate,
+  IProducerSchemaValidator,
+} from "../domain/schemas/producer.schema.ts";
 
 const createCompanyZodSchema = z.object({
   nome: z.string().min(COMPANY_NAME_LEN_MIN).max(COMPANY_NAME_LEN_MAX),
@@ -58,6 +66,11 @@ const createCampaignZodSchema = z
 const createTechnicianZodSchema = z.object({
   nome: z.string().min(NAME_LEN_MIN).max(NAME_LEN_MAX),
   campanha_id: z.uuid(),
+});
+
+const createProducerZodSchema = z.object({
+  nome: z.string().min(NAME_LEN_MIN).max(NAME_LEN_MAX),
+  localizacao: z.string().min(ADDRESS_LEN_MIN).max(ADDRESS_LEN_MAX),
 });
 
 export class CompanySchemaValidatorZodImpl implements CompanySchemaValidator {
@@ -113,6 +126,25 @@ export class TechnicianSchemaValidatorZodImpl
     return Result.ok({
       name: result.data.nome,
       campaignId: result.data.campanha_id,
+    });
+  };
+}
+
+export class ProducerSchemaValidatorZodImpl
+  implements IProducerSchemaValidator
+{
+  constructor() {}
+
+  public validateCreate = (
+    data: any,
+  ): Result<ProducerDtoCreate, DemoValidationError> => {
+    const result = createProducerZodSchema.safeParse(data);
+    if (!result.success) {
+      return Result.err(new DemoValidationError(result.error.message));
+    }
+    return Result.ok({
+      name: result.data.nome,
+      address: result.data.localizacao,
     });
   };
 }
