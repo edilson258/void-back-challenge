@@ -18,7 +18,13 @@ export class CampaignRepositoryTypeormImpl implements CampaignRepository {
     compaign: CampaignEntity,
   ): Promise<Result<void, DemoError>> => {
     try {
-      await this.typeOrmCompaignRepository.save(compaign);
+      await this.typeOrmCompaignRepository.save({
+        id: compaign.id,
+        name: compaign.name,
+        company: { id: compaign.companyId },
+        startedAt: compaign.startedAt,
+        finishedAt: compaign.finishedAt,
+      });
       return Result.ok(undefined);
     } catch (error) {
       return Result.err(
