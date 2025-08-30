@@ -4,6 +4,7 @@ import { DataSource } from "typeorm";
 import { CompanyTypeormEntity } from "./entities/company.typeorm.entity.ts";
 import { CampaignTypeormEntity } from "./entities/campaign.typeorm.entity.ts";
 import { TechnicianTypeormEntity } from "./entities/technician.typeorm.entity.ts";
+import { ProducerEntityTypeorm } from "./entities/producer.entity.typeorm.ts";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,6 +14,7 @@ export const AppDataSource = new DataSource({
     CompanyTypeormEntity,
     CampaignTypeormEntity,
     TechnicianTypeormEntity,
+    ProducerEntityTypeorm,
   ],
   synchronize: true,
   subscribers: [],
