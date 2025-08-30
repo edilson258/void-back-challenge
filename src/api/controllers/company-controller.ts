@@ -8,12 +8,12 @@ import type { CompanyUseCaseCreate } from "../../domain/usecases/company/create/
 
 export class CompanyController {
   private readonly router: Router;
-  private readonly companySchemaValidator: CompanySchemaValidator;
   private readonly companyUseCaseCreate: CompanyUseCaseCreate;
+  private readonly companySchemaValidator: CompanySchemaValidator;
 
   constructor(
-    companyDtoCreateValidator: CompanySchemaValidator,
     companyUseCaseCreate: CompanyUseCaseCreate,
+    companyDtoCreateValidator: CompanySchemaValidator,
   ) {
     this.router = Router();
     this.companySchemaValidator = companyDtoCreateValidator;
