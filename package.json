@@ -8,7 +8,7 @@
     "node": "24.5.0"
   },
   "scripts": {
-    "dev": "node --watch index.ts",
+    "dev": "tsup",
     "test": "vitest --watch=false"
   },
   "dependencies": {
