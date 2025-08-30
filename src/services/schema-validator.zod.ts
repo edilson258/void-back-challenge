@@ -19,6 +19,10 @@ import {
   PHONE_LEN_MAX,
   PHONE_LEN_MIN,
 } from "../domain/schemas/shared.ts";
+import type {
+  TechnicianDtoCreate,
+  ITechnicianSchemaValidator,
+} from "../domain/schemas/technician.schema.ts";
 
 const createCompanyZodSchema = z.object({
   nome: z.string().min(COMPANY_NAME_LEN_MIN).max(COMPANY_NAME_LEN_MAX),
@@ -50,6 +54,11 @@ const createCampaignZodSchema = z
     message: "a data de início deve ser anterior à data de fim",
     path: ["data_fim"],
   });
+
+const createTechnicianZodSchema = z.object({
+  nome: z.string().min(NAME_LEN_MIN).max(NAME_LEN_MAX),
+  campanha_id: z.uuid(),
+});
 
 export class CompanySchemaValidatorZodImpl implements CompanySchemaValidator {
   constructor() {}
@@ -85,6 +94,25 @@ export class CampaignSchemaValidatorZodImpl implements CampaignSchemaValidator {
       companyId: result.data.empresa_id,
       startedAt: result.data.data_inicio,
       finishedAt: result.data.data_fim,
+    });
+  };
+}
+
+export class TechnicianSchemaValidatorZodImpl
+  implements ITechnicianSchemaValidator
+{
+  constructor() {}
+
+  public validateCreate = (
+    data: any,
+  ): Result<TechnicianDtoCreate, DemoValidationError> => {
+    const result = createTechnicianZodSchema.safeParse(data);
+    if (!result.success) {
+      return Result.err(new DemoValidationError(result.error.message));
+    }
+    return Result.ok({
+      name: result.data.nome,
+      campaignId: result.data.campanha_id,
     });
   };
 }
