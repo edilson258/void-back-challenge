@@ -5,6 +5,7 @@ import { DemoErrorToHttpErrorMapper } from "../../mappers/demo-error-to-http-err
 
 import type { CompanySchemaValidator } from "../../domain/schemas/company-schemas.ts";
 import type { CompanyUseCaseCreate } from "../../domain/usecases/company/create/index.ts";
+import { CompanyEntityView } from "../views/company.entity.view.ts";
 
 export class CompanyController {
   private readonly router: Router;
@@ -49,6 +50,8 @@ export class CompanyController {
       return res.status(mappedErr.status).json({ error: mappedErr.message });
     }
 
-    res.status(201).json({ data: createResult.unwrap() });
+    res
+      .status(201)
+      .json({ data: CompanyEntityView.fromEntity(createResult.unwrap()) });
   };
 }
