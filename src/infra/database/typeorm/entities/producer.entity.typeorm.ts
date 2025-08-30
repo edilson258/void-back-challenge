@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 
 @Entity({ name: "producers" })
-export class ProducerEntityTypeorm {
+export class ProducerTypeormEntity {
   @PrimaryColumn({ type: "uuid" })
   id!: string;
 
