@@ -13,10 +13,10 @@ import {
 import { PHONE_LEN_MAX, PHONE_LEN_MIN } from "../domain/schemas/shared.ts";
 
 const createCompanyZodSchema = z.object({
-  name: z.string().min(COMPANY_NAME_LEN_MIN).max(COMPANY_NAME_LEN_MAX),
+  nome: z.string().min(COMPANY_NAME_LEN_MIN).max(COMPANY_NAME_LEN_MAX),
   cnpj: z.string().length(COMPANY_CNPJ_LEN),
   email: z.email(),
-  phone: z.string().min(PHONE_LEN_MIN).max(PHONE_LEN_MAX),
+  telefone: z.string().min(PHONE_LEN_MIN).max(PHONE_LEN_MAX),
 });
 
 export class CompanySchemaValidatorZodImpl implements CompanySchemaValidator {
@@ -29,6 +29,11 @@ export class CompanySchemaValidatorZodImpl implements CompanySchemaValidator {
     if (!result.success) {
       return Result.err(new DemoValidationError(result.error.message));
     }
-    return Result.ok(result.data);
+    return Result.ok({
+      name: result.data.nome,
+      cnpj: result.data.cnpj,
+      email: result.data.email,
+      phone: result.data.telefone,
+    });
   };
 }
