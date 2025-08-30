@@ -7,6 +7,8 @@ export class Option<T> {
 
   public static some = <T>(value: T): Option<T> => new Option(value);
   public static none = <T>(): Option<T> => new Option();
+  public static fromNullable = <T>(value: T | null | undefined): Option<T> =>
+    value === null || value === undefined ? Option.none() : Option.some(value);
 
   public isSome = (): boolean => this.value !== null;
   public isNone = (): boolean => this.value === null;
