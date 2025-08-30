@@ -13,6 +13,7 @@ export class CampaignTypeormEntity {
     eager: true,
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
+    nullable: false,
   })
   @JoinColumn({ name: "company_id" })
   company!: CompanyTypeormEntity;
