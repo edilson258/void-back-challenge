@@ -4,7 +4,11 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
 } from "typeorm";
+import { ProducerCampaignEntityTypeorm } from "./producer-campaign.entity.typeorm";
 
 @Entity({ name: "producers" })
 export class ProducerTypeormEntity {
@@ -16,6 +20,9 @@ export class ProducerTypeormEntity {
 
   @Column({ type: "varchar", length: 255 })
   address!: string;
+
+  @OneToMany(() => ProducerCampaignEntityTypeorm, (pc) => pc.producer)
+  campaigns!: ProducerCampaignEntityTypeorm[];
 
   // Timestamps
   //

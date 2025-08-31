@@ -4,92 +4,107 @@
  * NOTE: we can consider using a full featured DI container like InversifyJS or Tsyringe from Microsoft.
  */
 
-import type { CompanyRepository } from "../domain/repositories/company-repository";
-import type { ITechnicianRepository } from "../domain/repositories/technician.repository";
-import type { IProducerRepository } from "../domain/repositories/producer.repository";
-
-import type { CampaignSchemaValidator } from "../domain/schemas/campaign.schema";
-import type { CompanySchemaValidator } from "../domain/schemas/company-schemas";
-import type { ITechnicianSchemaValidator } from "../domain/schemas/technician.schema";
-
 import { AppDataSource } from "../infra/database/typeorm";
 
-import { CompanyUseCaseCreate } from "../domain/usecases/company/create";
-import { ProducerUseCaseCreate } from "../domain/usecases/producer/producer.usecase.create";
-import { CampaignUseCaseCreate } from "../domain/usecases/compaign/comapign.usecase.create";
-import { TechnicianUseCaseCreate } from "../domain/usecases/technician/technician.usecase.create";
+import type { IEmpresaRepository } from "../domain/repositories/empresa.repository";
+import type { IProdutorRepository } from "../domain/repositories/produtor.repository";
+import type { ITecnicoRepository } from "../domain/repositories/tecnico.repository";
 
-import { CampaignTypeormEntity } from "../infra/database/typeorm/entities/campaign.typeorm.entity";
-import { CompanyTypeormEntity } from "../infra/database/typeorm/entities/company.typeorm.entity";
-import { TechnicianTypeormEntity } from "../infra/database/typeorm/entities/technician.typeorm.entity";
-import { ProducerTypeormEntity } from "../infra/database/typeorm/entities/producer.entity.typeorm";
+import type { ICampanhaSchemaValidation } from "../domain/schemas/campanha.schema";
+import type { IEmpresaSchemaValidation } from "../domain/schemas/empresa.schema";
+import type { IProdutorSchemaValidation } from "../domain/schemas/produtor.schema";
+import type { ITecnicoSchemaValidation } from "../domain/schemas/tecnico.schema";
 
-import { TypeOrmCompanyRepository } from "../infra/database/typeorm/repositories/company-repository.typeorm.impl";
-import { CampaignRepositoryTypeormImpl } from "../infra/database/typeorm/repositories/campaign.repository.typeorm.impl";
-import { TechnicianRepositoryTypeormImpl } from "../infra/database/typeorm/repositories/technician.repository.typeorm";
-import { ProducerRepositoryTypeormImpl } from "../infra/database/typeorm/repositories/producer.repository.typeorm";
+import { CampanhaUseCaseCreate } from "../domain/usecases/campanha.usecase.create";
+import { EmpresaUseCaseCreate } from "../domain/usecases/empresa.usecase.create";
+import { ProdutorUseCaseCreate } from "../domain/usecases/produtor.usecase.create";
+import { TecnicoUseCaseCreate } from "../domain/usecases/tecnico.usecase.create";
+
+import { CampanhaRepositoryTypeormImpl } from "../infra/database/typeorm/repositories/campanha.repository.typeorm.impl";
+import { EmpresaRepositoryTypeormImpl } from "../infra/database/typeorm/repositories/empresa.repository.typeorm.impl";
+import { ProdutorRepositoryTypeormImpl } from "../infra/database/typeorm/repositories/produtor.repository.typeorm.impl";
+import { TecnicoRepositoryTypeormImpl } from "../infra/database/typeorm/repositories/tecnico.repository.typeorm.impl";
 
 import {
-  CompanySchemaValidatorZodImpl,
-  CampaignSchemaValidatorZodImpl,
-  TechnicianSchemaValidatorZodImpl,
-  ProducerSchemaValidatorZodImpl,
-} from "./schema-validator.zod";
-import type { IProducerSchemaValidator } from "../domain/schemas/producer.schema";
+  CampanhaSchemaValidationZodImpl,
+  EmpresaSchemaValidationZodImpl,
+  ProdutorCampanhaSchemaVaidationZodImpl,
+  ProdutorSchemaValidationZodImpl,
+  TecnicoSchemaValidationZodImpl,
+} from "./schema.validation.service.zod.impl";
+import { ProdutorCampanhaUseCaseAssign } from "../domain/usecases/produtor-campanha.usecase.assign";
+import { ProdutorCampanhaUseCaseReassign } from "../domain/usecases/produtor-campanha.usecase.reassign";
+import { ProdutorCampanhaRepositoryTypeormImpl } from "../infra/database/typeorm/repositories/produtor-campanha.repository.typeorm.impl";
+import type { IProdutorCampanhaSchemaValidation } from "../domain/schemas/produtor-campanha.schema";
+import { TecnicoUseCaseListProdutores } from "../domain/usecases/tecnico.usecase.listprodutores";
 
 export type DiContainerType = {
   // repositories
-  companyRepository: CompanyRepository;
-  technicianRepository: ITechnicianRepository;
-  producerRepository: IProducerRepository;
+  empresaRepository: IEmpresaRepository;
+  tecnicoRepository: ITecnicoRepository;
+  produtorRepository: IProdutorRepository;
 
   // usecases
-  companyUseCaseCreate: CompanyUseCaseCreate;
-  compaignUseCaseCreate: CampaignUseCaseCreate;
-  technicianUseCaseCreate: TechnicianUseCaseCreate;
-  producerUseCaseCreate: ProducerUseCaseCreate;
+  empresaUseCaseCreate: EmpresaUseCaseCreate;
+  campanhaUseCaseCreate: CampanhaUseCaseCreate;
+  tecnicoUseCaseCreate: TecnicoUseCaseCreate;
+  tecnicoUseCaseListProdutores: TecnicoUseCaseListProdutores;
+  produtorUseCaseCreate: ProdutorUseCaseCreate;
+  produtorCampanhaUseCaseAssign: ProdutorCampanhaUseCaseAssign;
+  produtorCampanhaUseCaseReassign: ProdutorCampanhaUseCaseReassign;
 
   // services
-  companySchemaValidator: CompanySchemaValidator;
-  compaignSchemaValidator: CampaignSchemaValidator;
-  technicianSchemaValidator: ITechnicianSchemaValidator;
-  producerSchemaValidator: IProducerSchemaValidator;
+  empresaSchemaValidator: IEmpresaSchemaValidation;
+  campanhaSchemaValidator: ICampanhaSchemaValidation;
+  tecnicoSchemaValidator: ITecnicoSchemaValidation;
+  produtorSchemaValidator: IProdutorSchemaValidation;
+  produtorCampanhaSchemaValidator: IProdutorCampanhaSchemaValidation;
 };
 
-const companyRepository = new TypeOrmCompanyRepository(
-  AppDataSource.getRepository(CompanyTypeormEntity),
-);
-const compaignRepository = new CampaignRepositoryTypeormImpl(
-  AppDataSource.getRepository(CampaignTypeormEntity),
-);
-const technicianRepository = new TechnicianRepositoryTypeormImpl(
-  AppDataSource.getRepository(TechnicianTypeormEntity),
-);
-const producerRepository = new ProducerRepositoryTypeormImpl(
-  AppDataSource.getRepository(ProducerTypeormEntity),
+const empresaRepository = new EmpresaRepositoryTypeormImpl(AppDataSource);
+const campanhaRepository = new CampanhaRepositoryTypeormImpl(AppDataSource);
+const tecnicoRepository = new TecnicoRepositoryTypeormImpl(AppDataSource);
+const produtorRepository = new ProdutorRepositoryTypeormImpl(AppDataSource);
+const produtorCampanhaRepository = new ProdutorCampanhaRepositoryTypeormImpl(
+  AppDataSource,
 );
 
 export const DiContainer: DiContainerType = {
   // repositories
-  companyRepository: companyRepository,
-  technicianRepository: technicianRepository,
-  producerRepository: producerRepository,
+  empresaRepository: empresaRepository,
+  tecnicoRepository: tecnicoRepository,
+  produtorRepository: produtorRepository,
 
   // usecases
-  companyUseCaseCreate: new CompanyUseCaseCreate(companyRepository),
-  compaignUseCaseCreate: new CampaignUseCaseCreate(
-    companyRepository,
-    compaignRepository,
+  empresaUseCaseCreate: new EmpresaUseCaseCreate(empresaRepository),
+  campanhaUseCaseCreate: new CampanhaUseCaseCreate(
+    empresaRepository,
+    campanhaRepository,
   ),
-  technicianUseCaseCreate: new TechnicianUseCaseCreate(
-    compaignRepository,
-    technicianRepository,
+  tecnicoUseCaseCreate: new TecnicoUseCaseCreate(
+    tecnicoRepository,
+    campanhaRepository,
   ),
-  producerUseCaseCreate: new ProducerUseCaseCreate(producerRepository),
+  tecnicoUseCaseListProdutores: new TecnicoUseCaseListProdutores(
+    tecnicoRepository,
+    produtorCampanhaRepository,
+  ),
+  produtorUseCaseCreate: new ProdutorUseCaseCreate(produtorRepository),
+  produtorCampanhaUseCaseAssign: new ProdutorCampanhaUseCaseAssign(
+    tecnicoRepository,
+    campanhaRepository,
+    produtorRepository,
+    produtorCampanhaRepository,
+  ),
+  produtorCampanhaUseCaseReassign: new ProdutorCampanhaUseCaseReassign(
+    tecnicoRepository,
+    produtorCampanhaRepository,
+  ),
 
   // services
-  companySchemaValidator: new CompanySchemaValidatorZodImpl(),
-  compaignSchemaValidator: new CampaignSchemaValidatorZodImpl(),
-  technicianSchemaValidator: new TechnicianSchemaValidatorZodImpl(),
-  producerSchemaValidator: new ProducerSchemaValidatorZodImpl(),
+  empresaSchemaValidator: new EmpresaSchemaValidationZodImpl(),
+  campanhaSchemaValidator: new CampanhaSchemaValidationZodImpl(),
+  tecnicoSchemaValidator: new TecnicoSchemaValidationZodImpl(),
+  produtorSchemaValidator: new ProdutorSchemaValidationZodImpl(),
+  produtorCampanhaSchemaValidator: new ProdutorCampanhaSchemaVaidationZodImpl(),
 };

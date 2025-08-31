@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { CampaignTypeormEntity } from "./campaign.typeorm.entity";
+import { ProducerCampaignEntityTypeorm } from "./producer-campaign.entity.typeorm";
 
 @Entity({ name: "technicians" })
 export class TechnicianTypeormEntity {
@@ -17,15 +18,13 @@ export class TechnicianTypeormEntity {
   @Column({ type: "varchar", length: 255 })
   name!: string;
 
-  // NOTE: we can alose have a many-to-many relationship, meaning:
-  // a technician can be in many campaigns at once and a campaign can have many technicians working on it.
-  @ManyToOne(() => CampaignTypeormEntity, {
+  @ManyToOne(() => CampaignTypeormEntity, (pc) => pc.technicians, {
     eager: true,
-    onDelete: "CASCADE",
+    nullable: true,
     onUpdate: "CASCADE",
-    nullable: false,
+    onDelete: "SET NULL",
   })
-  @JoinColumn({ name: "campaign_id" })
+  @JoinColumn({ name: "producer_campaign_id" })
   campaign!: CampaignTypeormEntity;
 
   // Timestamps

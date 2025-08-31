@@ -4,7 +4,7 @@ import { CompanyUseCaseCreate } from "../../../../../src/domain/usecases/company
 import { CompanyRepositoryMock } from "../../../../mock/domain/repositories/company-repository.mock";
 
 import type { CompanyDtoCreate } from "../../../../../src/domain/schemas/company-schemas";
-import type { DemoErrorCategory } from "../../../../../src/error";
+import type { VoidErrorType } from "../../../../../src/error";
 
 describe("Create Company Use Case", () => {
   const companyRepositoryMock = new CompanyRepositoryMock();
@@ -51,7 +51,7 @@ describe("Create Company Use Case", () => {
 
     expect(company2.isErr()).toBe(true);
 
-    expect(company2.unwrapErr().category).toBe<DemoErrorCategory>(
+    expect(company2.unwrapErr().category).toBe<VoidErrorType>(
       "ENTRY_COLLISION",
     );
   });

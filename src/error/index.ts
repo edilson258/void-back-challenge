@@ -1,22 +1,23 @@
-const DEMO_ERROR_CATEGORIES = [
+const VOID_APP_ERRORS = [
   "ENTRY_COLLISION",
   "ENTRY_NOT_FOUND",
+  "ENTRY_IS_INVALID",
   "VALIDATION_ERROR",
   "INFRASTRUCTURE_FAILURE",
 ] as const;
 
-export type DemoErrorCategory = (typeof DEMO_ERROR_CATEGORIES)[number];
+export type VoidErrorType = (typeof VOID_APP_ERRORS)[number];
 
-export class DemoError extends Error {
-  public readonly category: DemoErrorCategory;
+export class VoidError extends Error {
+  public readonly category: VoidErrorType;
 
-  constructor(category: DemoErrorCategory, message: string) {
+  constructor(category: VoidErrorType, message: string) {
     super(message);
     this.category = category;
   }
 }
 
-export class DemoValidationError extends DemoError {
+export class VoidValidationError extends VoidError {
   constructor(message: string) {
     super("VALIDATION_ERROR", message);
   }

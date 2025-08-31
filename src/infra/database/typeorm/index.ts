@@ -1,20 +1,24 @@
 import { eVars } from "../../../utils/env.ts";
 
 import { DataSource } from "typeorm";
-import { CompanyTypeormEntity } from "./entities/company.typeorm.entity.ts";
-import { CampaignTypeormEntity } from "./entities/campaign.typeorm.entity.ts";
-import { TechnicianTypeormEntity } from "./entities/technician.typeorm.entity.ts";
-import { ProducerTypeormEntity } from "./entities/producer.entity.typeorm.ts";
+import {
+  CampanhaTypeorm,
+  EmpresaTypeorm,
+  ProdutorTypeorm,
+  TecnicoTypeorm,
+  ProdutorCampanhaTypeorm,
+} from "./entities.ts";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
   url: eVars.POSTGRES_URL,
   logging: true,
   entities: [
-    CompanyTypeormEntity,
-    CampaignTypeormEntity,
-    TechnicianTypeormEntity,
-    ProducerTypeormEntity,
+    EmpresaTypeorm,
+    CampanhaTypeorm,
+    TecnicoTypeorm,
+    ProdutorTypeorm,
+    ProdutorCampanhaTypeorm,
   ],
   synchronize: true,
   subscribers: [],

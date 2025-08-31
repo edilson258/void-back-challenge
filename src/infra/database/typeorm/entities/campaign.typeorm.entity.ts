@@ -1,5 +1,15 @@
-import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
 import { CompanyTypeormEntity } from "./company.typeorm.entity";
+import { ProducerTypeormEntity } from "./producer.entity.typeorm";
+import { TechnicianTypeormEntity } from "./technician.typeorm.entity";
+import { ProducerCampaignEntityTypeorm } from "./producer-campaign.entity.typeorm";
 
 @Entity({ name: "campaigns" })
 export class CampaignTypeormEntity {
@@ -17,6 +27,12 @@ export class CampaignTypeormEntity {
   })
   @JoinColumn({ name: "company_id" })
   company!: CompanyTypeormEntity;
+
+  @OneToMany(() => ProducerCampaignEntityTypeorm, (pc) => pc.campaign)
+  producers!: ProducerCampaignEntityTypeorm[];
+
+  @OneToMany(() => TechnicianTypeormEntity, (technician) => technician.campaign)
+  technicians!: TechnicianTypeormEntity[];
 
   @Column({ type: "date", nullable: false })
   startedAt!: Date;

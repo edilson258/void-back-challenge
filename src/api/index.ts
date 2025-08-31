@@ -1,30 +1,34 @@
 import { Router } from "express";
 import { DiContainer } from "../services/di-container.ts";
-import { CompanyController } from "./controllers/company-controller.ts";
-import { CampaignController } from "./controllers/campaign.controller.ts";
-import { TechnicianController } from "./controllers/technician.controller.ts";
-import { ProducerController } from "./controllers/producer.controller.ts";
+import { EmpresaController } from "./controllers/empresa.controller.ts";
+import { CampanhaController } from "./controllers/campanha.controller.ts";
+import { TecnicoController } from "./controllers/tecnico.controller.ts";
+import { ProdutorController } from "./controllers/produtor.controller.ts";
 
-const companyController = new CompanyController(
-  DiContainer.companyUseCaseCreate,
-  DiContainer.companySchemaValidator,
+const empresaController = new EmpresaController(
+  DiContainer.empresaUseCaseCreate,
+  DiContainer.empresaSchemaValidator,
 );
-const compaignController = new CampaignController(
-  DiContainer.compaignUseCaseCreate,
-  DiContainer.compaignSchemaValidator,
+const companhaController = new CampanhaController(
+  DiContainer.campanhaUseCaseCreate,
+  DiContainer.campanhaSchemaValidator,
 );
-const technicianController = new TechnicianController(
-  DiContainer.technicianUseCaseCreate,
-  DiContainer.technicianSchemaValidator,
+const tecnicoController = new TecnicoController(
+  DiContainer.tecnicoUseCaseCreate,
+  DiContainer.tecnicoUseCaseListProdutores,
+  DiContainer.tecnicoSchemaValidator,
 );
-const producerController = new ProducerController(
-  DiContainer.producerUseCaseCreate,
-  DiContainer.producerSchemaValidator,
+const produtorController = new ProdutorController(
+  DiContainer.produtorUseCaseCreate,
+  DiContainer.produtorSchemaValidator,
+  DiContainer.produtorCampanhaUseCaseAssign,
+  DiContainer.produtorCampanhaUseCaseReassign,
+  DiContainer.produtorCampanhaSchemaValidator,
 );
 
 export const apiRouter = Router();
 
-apiRouter.use("/empresas", companyController.getRouter());
-apiRouter.use("/campanhas", compaignController.getRouter());
-apiRouter.use("/tecnicos", technicianController.getRouter());
-apiRouter.use("/produtores", producerController.getRouter());
+apiRouter.use("/empresas", empresaController.getRouter());
+apiRouter.use("/campanhas", companhaController.getRouter());
+apiRouter.use("/tecnicos", tecnicoController.getRouter());
+apiRouter.use("/produtores", produtorController.getRouter());
