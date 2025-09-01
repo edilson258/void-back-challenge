@@ -6,7 +6,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   dts: false,
-  target: "node18",
+  target: "node22",
   watch: ["src/"],
   onSuccess: "node dist/index.js",
 });
