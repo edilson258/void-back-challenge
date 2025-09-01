@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log
+yarn.lock
+pnpm-lock.yaml
+dist/
+out/
+.env
+.env.local
+.env.development
+.env.test
+*.log
+.git/
+.gitignore
+.DS_Store
+.vscode/
+.idea/
