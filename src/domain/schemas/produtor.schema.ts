@@ -1,8 +1,8 @@
 export type ProdutorCreateDto = {
-  nome: string;
-  localizacao: string;
+	nome: string;
+	localizacao: string;
 };
 
 export interface IProdutorSchemaValidation {
-  validateCreate: (input: any) => ProdutorCreateDto;
+	validateCreate: (input: unknown) => ProdutorCreateDto;
 }

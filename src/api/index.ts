@@ -1,29 +1,29 @@
 import { Router } from "express";
 import { DiContainer } from "../services/di-container.ts";
-import { EmpresaController } from "./controllers/empresa.controller.ts";
 import { CampanhaController } from "./controllers/campanha.controller.ts";
-import { TecnicoController } from "./controllers/tecnico.controller.ts";
+import { EmpresaController } from "./controllers/empresa.controller.ts";
 import { ProdutorController } from "./controllers/produtor.controller.ts";
+import { TecnicoController } from "./controllers/tecnico.controller.ts";
 
 const empresaController = new EmpresaController(
-  DiContainer.empresaUseCaseCreate,
-  DiContainer.empresaSchemaValidator,
+	DiContainer.empresaUseCaseCreate,
+	DiContainer.empresaSchemaValidator,
 );
 const companhaController = new CampanhaController(
-  DiContainer.campanhaUseCaseCreate,
-  DiContainer.campanhaSchemaValidator,
+	DiContainer.campanhaUseCaseCreate,
+	DiContainer.campanhaSchemaValidator,
 );
 const tecnicoController = new TecnicoController(
-  DiContainer.tecnicoUseCaseCreate,
-  DiContainer.tecnicoUseCaseListProdutores,
-  DiContainer.tecnicoSchemaValidator,
+	DiContainer.tecnicoUseCaseCreate,
+	DiContainer.tecnicoUseCaseListProdutores,
+	DiContainer.tecnicoSchemaValidator,
 );
 const produtorController = new ProdutorController(
-  DiContainer.produtorUseCaseCreate,
-  DiContainer.produtorSchemaValidator,
-  DiContainer.produtorCampanhaUseCaseAssign,
-  DiContainer.produtorCampanhaUseCaseReassign,
-  DiContainer.produtorCampanhaSchemaValidator,
+	DiContainer.produtorUseCaseCreate,
+	DiContainer.produtorSchemaValidator,
+	DiContainer.produtorCampanhaUseCaseAssign,
+	DiContainer.produtorCampanhaUseCaseReassign,
+	DiContainer.produtorCampanhaSchemaValidator,
 );
 
 export const apiRouter = Router();
